@@ -1,0 +1,11 @@
+@import "modules/reset";
+@import "modules/fonts";
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Montserrat";
+  font-weight: 400;
+}
