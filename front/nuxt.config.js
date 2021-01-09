@@ -1,4 +1,10 @@
+const path = require("path");
+
 export default {
+  env: require("dotenv").config({path: process.env.NODE_ENV === 'development' ? '.env' : '.env.production'}),
+  server: {
+    port: 9999,
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'Test-voxweb',
@@ -14,10 +20,12 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    {src: '~assets/styles/main.scss', lang: 'scss'},
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    'plugins/axios.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -31,9 +39,24 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/style-resources',
   ],
-
+  axios: {
+    baseURL: process.env.NUXT_ENV_APP_API_URL,
+    credentials: true,
+  },
+  styleResources: {
+    scss: [
+      'assets/styles/modules/_variable.scss',
+    ]
+  },
+  loading: {color: '#00B2A8'},
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    extend(config, {isDev, isClient}) {
+      const alias = config.resolve.alias = config.resolve.alias || {};
+      alias['@images'] = path.resolve(__dirname, "assets/images");
+    }
   }
 }
