@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper-log">
     <Nuxt class="content"/>
   </div>
 </template>
@@ -11,7 +11,7 @@
 </script>
 
 <style lang="scss">
-  .wrapper {
+  .wrapper-log {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
