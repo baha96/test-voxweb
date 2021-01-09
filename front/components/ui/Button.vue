@@ -25,6 +25,7 @@
     display: block;
     width: 100%;
     padding: 14px 8px;
+    font-weight: 500;
     color: #fff;
     border-radius: $bradius;
     background: $site-color;
