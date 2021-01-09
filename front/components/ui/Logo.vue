@@ -13,6 +13,7 @@
 <style scoped lang="scss">
   .logo {
     display: inline-block;
+    width: 35%;
     img {
       width: 100%;
     }
