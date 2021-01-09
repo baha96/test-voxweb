@@ -18,12 +18,14 @@
   .logo {
     display: inline-block;
     width: 35%;
+    height: 33px;
     img {
       width: 100%;
       height: 100%;
     }
     @media only screen and (min-width: 500px) {
       width: 140px;
+      height: 35px;
     }
     @media only screen and (min-width: 992px) {
       width: 130px;
