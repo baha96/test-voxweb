@@ -1,15 +1,127 @@
 <template>
-    <div class="statistics">
-      statistics
+  <div class="statistics">
+    <h1>Статистика</h1>
+    <div class="statistics-content">
+      <LineChart :datasets="datasets" ref="chart" :options="options" :labels="labels"/>
+
+      <div class="statistics-content__buttons">
+        <Button text="Случайные данные" class="gray" @click.native="setRandomDatas()"/>
+        <Button text="Добавить данные" class="gray" @click.native="addRandomData()"/>
+        <Button text="Удалить данные" class="gray" @click.native="delAllData()"/>
+        <Button text="Увеличить кол-во данных" class="gray" @click.native="enlargeData()"/>
+        <Button text="Уменьшить кол-во данных" class="gray" @click.native="reduceData()"/>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
   export default {
-    name: "statistics"
+    name: "statistics",
+    data() {
+      return {
+        months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        labels: [],
+        limit: 3,
+        datasets: [],
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      }
+    },
+    created() {
+      this.labels = this.months.slice(0, this.limit);
+    },
+    mounted() {
+      this.setRandomDatas()
+    },
+    methods: {
+      templateData() {
+        const color = '#'+(Math.random()* (50 - 12 + 190)).toString(16).slice(-6);
+        return {
+          label: 'Названия',
+          data: [this.getRandomInt()],
+          backgroundColor: "transparent",
+          borderColor: color,
+          pointBackgroundColor: color
+        }
+      },
+      getRandomInt() {
+        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      },
+      setDatas() {
+        return Array.from({length: this.labels.length}, () => this.getRandomInt())
+      },
+      setRandomDatas() {
+        this.datasets = Array.from({length: 3}, () => ({
+          ...this.templateData(),
+          data: this.setDatas(),
+        }));
+        this.$refs.chart.renderChartDatas()
+      },
+      addRandomData() {
+        if (this.limit < 12) {
+          this.limit++;
+          this.labels.push(this.months[this.limit-1]);
+          if (this.datasets.length) {
+            this.datasets.forEach(i => {
+              i.data.push(this.getRandomInt())
+            });
+          }
+
+          this.$refs.chart.updateChartDatas()
+        }
+      },
+      delAllData() {
+        this.labels = [];
+        this.limit = 0;
+        this.datasets = []
+      },
+      enlargeData() {
+        this.datasets.push({
+          ...this.templateData(),
+          data: this.setDatas()
+        });
+        this.$refs.chart.updateChartDatas()
+      },
+      reduceData() {
+        if (this.datasets.length) {
+          this.datasets.splice(-1,1);
+          this.$refs.chart.updateChartDatas()
+        }
+      }
+    },
   }
 </script>
 
 <style scoped lang="scss">
+  .statistics {
+    &-content {
+      padding: 1rem;
 
+      &__buttons button {
+        margin-top: 1rem;
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 1200px) {
+      &-content {
+        &__buttons button {
+          margin-right: 1rem;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+</style>
+<style lang="scss">
+  canvas {
+    width: 100% !important;
+    max-height: 500px;
+    @media only screen and (min-width: 1200px) {
+      max-width: 1050px;
+    }
+
+  }
 </style>

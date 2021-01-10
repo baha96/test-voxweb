@@ -37,7 +37,7 @@
           },
           {
             name: 'Статистика',
-            url: '/statistics',
+            url: '/user/statistics',
             img: 'statistics',
           },
         ],
