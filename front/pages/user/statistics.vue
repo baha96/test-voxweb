@@ -2,7 +2,7 @@
   <div class="statistics">
     <h1>Статистика</h1>
     <div class="statistics-content">
-      <LineChart :datasets="datasets" ref="chart" :options="options" :labels="labels"/>
+      <LineChart :chartData="chartData" ref="chart" :options="options"/>
 
       <div class="statistics-content__buttons">
         <Button text="Случайные данные" class="gray" @click.native="setRandomDatas()"/>
@@ -36,6 +36,14 @@
     mounted() {
       this.setRandomDatas()
     },
+    computed: {
+      chartData() {
+        return {
+          labels: this.labels,
+          datasets: this.datasets
+        }
+      }
+    },
     methods: {
       templateData() {
         const color = '#'+(Math.random()* (50 - 12 + 190)).toString(16).slice(-6);
@@ -58,7 +66,7 @@
           ...this.templateData(),
           data: this.setDatas(),
         }));
-        this.$refs.chart.renderChartDatas()
+        this.$refs.chart.updateChart()
       },
       addRandomData() {
         if (this.limit < 12) {
@@ -69,8 +77,6 @@
               i.data.push(this.getRandomInt())
             });
           }
-
-          this.$refs.chart.updateChartDatas()
         }
       },
       delAllData() {
@@ -79,16 +85,14 @@
         this.datasets = []
       },
       enlargeData() {
-        this.datasets.push({
-          ...this.templateData(),
-          data: this.setDatas()
-        });
-        this.$refs.chart.updateChartDatas()
+        this.datasets = [...this.datasets, {
+             ...this.templateData(),
+            data: this.setDatas()
+        }]
       },
       reduceData() {
         if (this.datasets.length) {
           this.datasets.splice(-1,1);
-          this.$refs.chart.updateChartDatas()
         }
       }
     },

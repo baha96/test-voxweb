@@ -1,23 +1,16 @@
 <script>
-  import { Line } from "vue-chartjs";
+  import { Line, mixins } from "vue-chartjs";
+  const { reactiveProp } = mixins;
   export default {
     extends: Line,
     name: "LineChart",
+    mixins: [reactiveProp],
     props: {
       options: Object,
-      datasets: {
-        type: Array,
+      chartData: {
+        type: Object,
         required: true
       },
-      labels: {
-        type: Array,
-        required: true
-      }
-    },
-    watch: {
-      'datasets'() {
-        this.renderChartDatas()
-      }
     },
     mounted() {
       this.renderChartDatas()
@@ -25,16 +18,12 @@
     methods: {
       renderChartDatas() {
         this.renderChart(
-          {
-            labels: this.labels,
-            datasets: this.datasets
-          },
-          this.options
-        );
+          this.chartData,
+          this.options);
       },
-      updateChartDatas() {
+      updateChart() {
         this.$data._chart.update()
-      },
+      }
     }
   }
 </script>
