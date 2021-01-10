@@ -1,6 +1,6 @@
 <template>
   <NLink class="navigation-item" v-if="item" :to="item.url">
-    <img :src="require(`@images/icon/${item.img}.svg`)" :alt="item.name">
+    <img :src="require(`@images/icon/${changeImg(active)}.svg`)" :alt="item.name">
     <span>{{ item.name }}</span>
   </NLink>
 </template>
@@ -10,6 +10,16 @@
     name: "NavigationItem",
     props: {
       item: Object,
+    },
+    methods: {
+      changeImg(status) {
+        return status ? this.item.img + 'Red' : this.item.img
+      }
+    },
+    computed: {
+      active() {
+        return this.$route.path === this.item.url
+      }
     }
   }
 </script>
