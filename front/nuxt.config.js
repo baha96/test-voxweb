@@ -3,7 +3,7 @@ const path = require("path");
 export default {
   env: require("dotenv").config({path: process.env.NODE_ENV === 'development' ? '.env' : '.env.production'}),
   server: {
-    port: 9999,
+    port: 7888,
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
