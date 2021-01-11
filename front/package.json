@@ -17,7 +17,7 @@
     "core-js": "^3.6.5",
     "js-cookie": "^2.2.1",
     "node-sass": "^5.0.0",
-    "nuxt": "^2.14.6",
+    "nuxt": "^2.14.1",
     "sass-loader": "^10.1.0",
     "vue-chartjs": "^3.5.1"
   },

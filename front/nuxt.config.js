@@ -43,8 +43,7 @@ export default {
     '@nuxtjs/style-resources',
   ],
   axios: {
-    proxy: process.env.NODE_ENV === 'development',
-    // baseURL: process.env.NUXT_ENV_APP_API_URL,
+    proxy: true,
     credentials: true,
   },
   proxy: {
