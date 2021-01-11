@@ -1,6 +1,9 @@
 <template>
     <div class="input-checkbox">
-      <input type="checkbox" :id="inputID" :name="inputID" />
+      <input type="checkbox"
+             :id="inputID"
+             :name="inputID"
+             v-model.trim="value"/>
       <label :for="inputID">{{ text }}</label>
     </div>
 </template>
@@ -20,8 +23,26 @@
       text: {
         type: String,
         required:true
+      },
+      model: {
+        type: Boolean,
+        required: true
+      },
+      modelName: {
+        type: String,
+        required: true
+      },
+    },
+    computed: {
+      value: {
+        get: function () {
+          return this.model
+        },
+        set: function (val) {
+          this.$emit('get', {name: this.modelName , value: val} )
+        }
       }
-    }
+    },
   }
 </script>
 

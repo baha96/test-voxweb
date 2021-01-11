@@ -4,11 +4,11 @@ from django.http import JsonResponse
 import requests
 from rest_framework.views import APIView
 
+
 class TaskListView(APIView):
     permission_classes = ()
     authentication_classes = ()
 
-    def get(self):
+    def get(self, request):
         response = requests.get('https://jsonplaceholder.typicode.com/todos')
-        test = response.json()
-        return JsonResponse(test, safe=False)
+        return JsonResponse(response.json(), safe=False)

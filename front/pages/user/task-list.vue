@@ -12,12 +12,12 @@
         </div>
       </div>
 
-      <div class="task-list__content-list" v-for="(item, idx) in items" :key="'task-list__content-list'+idx">
+      <div class="task-list__content-list" v-for="item in items" :key="'task-list__content-list'+item.id">
         <div class="task-list__content-task">
-          <p>{{item.name}}</p>
+          <p>{{item.title}}</p>
         </div>
         <div class="task-list__content-status">
-          <InputCheckbox text="Выполнено"/>
+          <InputCheckbox text="Выполнено" :model="item.completed" modelName="completed"/>
         </div>
       </div>
     </div>
@@ -28,18 +28,16 @@
   export default {
     name: "task-list",
     middleware: 'auth',
-    data() {
-      return {
-        items: [
-          {
-            name: 'Текст задачи',
-            performed: false
-          },
-          {
-            name: 'laboriosam mollitia et enim quasi adipisci quia provident illum',
-            performed: false
-          }
-        ]
+    async asyncData({$axios}) {
+      try {
+        const response = await $axios.$get('/api/v1/task/');
+        return {
+          items: response
+        }
+      } catch (e) {
+        return {
+          items: []
+        }
       }
     }
   }
