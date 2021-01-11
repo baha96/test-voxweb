@@ -1,5 +1,6 @@
 @import "modules/reset";
 @import "modules/fonts";
+@import "modules/variable";
 * {
   box-sizing: border-box;
   margin: 0;
@@ -18,4 +19,11 @@ h1 {
   @media only screen and (min-width: 415px) {
     font-size: 24px;
   }
+}
+
+.error {
+  color: $site-color;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: 80%;
 }

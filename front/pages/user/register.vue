@@ -7,7 +7,7 @@
         <input type="text" v-model.trim="item.username" placeholder="Логин" required>
         <input type="password" v-model.trim="item.password" placeholder="Пароль" required>
         <input type="password" v-model.trim="item.password2" placeholder="Повторите пароль" required>
-        <p v-if="error" class="error">{{ error }}</p>
+        <p v-if="error.length" class="error" v-for="e in error">* {{ e }}</p>
         <div class="footer">
           <Button text="Создать" type="submit" :disabled="disabled"/>
           <Loading v-show="disabled" class="small"/>
@@ -30,18 +30,22 @@
           password: '',
           password2: '',
         },
-        error: ''
+        error: []
       }
     },
     methods: {
       async register() {
         try {
           this.disabled = true;
-          this.error = '';
-          await this.$axios.$post('account/register/', this.item)
+          this.error = [];
+          await this.$axios.$post('account/register/', this.item);
+          this.$router.push({name: 'user-login'})
         } catch (e) {
-          console.error(e)
-          this.error = e.response.data.error;
+          console.error(e);
+          const {data} = e.response;
+            if (data && data.warning) this.error = data.warning;
+            else if (data && data.non_field_errors) this.error = data.non_field_errors;
+
         } finally {
           this.disabled = false
         }
@@ -80,11 +84,7 @@
         }
       }
     }
-    .error {
-      color: $site-color;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
+
     .footer {
       display: flex;
       align-items: center;

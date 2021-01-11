@@ -43,7 +43,6 @@ export default {
   ],
   axios: {
     baseURL: process.env.NUXT_ENV_APP_API_URL,
-    credentials: true,
   },
   styleResources: {
     scss: [
