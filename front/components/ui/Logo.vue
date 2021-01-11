@@ -1,7 +1,7 @@
 <template>
-    <NLink to="/" class="logo">
-      <img v-show="short" src="@images/logo-short.svg" alt="logo-short.svg"/>
-      <img v-show="!short" src="@images/logo.svg" alt="logo.svg"/>
+    <NLink to="/" class="logo" :class="{short: short}">
+      <img src="@images/logo-short.svg" alt="logo-short.svg"/>
+      <img src="@images/logo.svg" alt="logo.svg"/>
     </NLink>
 </template>
 
@@ -22,6 +22,9 @@
     img {
       width: 100%;
       height: 100%;
+      &[alt="logo-short.svg"] {
+        display: none;
+      }
     }
     @media only screen and (min-width: 500px) {
       width: 140px;
@@ -31,6 +34,12 @@
       width: 130px;
       min-width: 25px;
       height: 33px;
+      &.short img {
+        display: none;
+        &[alt="logo-short.svg"] {
+          display: block;
+        }
+      }
     }
   }
 </style>

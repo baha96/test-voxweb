@@ -13,8 +13,10 @@
       <template v-for="(item, idx) in items">
         <NavigationItem :item="item"
                         :key="'navigation'+idx"
-                        :class="{'show-text': !hide}"/>
+                        :class="{'show-text': !hide}"
+                        @click.native="show = false"/>
       </template>
+      <ButtonExit :class="{'show-text': !hide}"/>
     </div>
   </nav>
 </template>
@@ -85,6 +87,8 @@
       height: calc(100vh - 73px);
       background: #fff;
       z-index: 666;
+      display: flex;
+      flex-direction: column;
     }
 
     &.show {

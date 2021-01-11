@@ -110,8 +110,6 @@
 <style scoped lang="scss">
   .statistics {
     &-content {
-      padding: 1rem;
-
       &__buttons button {
         margin-top: 1rem;
         font-size: 14px;
@@ -119,6 +117,7 @@
     }
     @media only screen and (min-width: 1200px) {
       &-content {
+        padding: 1rem;
         &__buttons button {
           margin-right: 1rem;
           font-size: 16px;

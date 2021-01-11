@@ -12,6 +12,8 @@
         </div>
       </div>
 
+      <Loading v-if="items.length === 0 && loading"/>
+
       <div class="task-list__content-list" v-for="item in items" :key="'task-list__content-list'+item.id">
         <div class="task-list__content-task">
           <p>{{item.title}}</p>
@@ -25,11 +27,15 @@
 </template>
 
 <script>
+
+  let loading = false;
+
   export default {
     name: "task-list",
     middleware: 'auth',
     async asyncData({$axios}) {
       try {
+        loading = true;
         const response = await $axios.$get('/api/v1/task/');
         return {
           items: response
@@ -38,8 +44,15 @@
         return {
           items: []
         }
+      } finally {
+        loading = false;
       }
-    }
+    },
+    data() {
+      return {
+        loading: loading,
+      }
+    },
   }
 </script>
 

@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -103,3 +103,15 @@ class MyProfileGetView(generics.RetrieveAPIView):
             )
         except User.DoesNotExist:
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class LogoutView(APIView):
+
+    def post(self, request):
+        logout(request)
+        return Response(
+            {
+                'message': 'ok'
+            },
+            status=status.HTTP_200_OK
+        )
