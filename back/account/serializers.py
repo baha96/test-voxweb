@@ -95,7 +95,7 @@ class ProfileDetailSerializer(serializers.ModelSerializer):
 
 class ProfileEditSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
-        style={'input_type': 'password'}
+        required=False, style={'input_type': 'password'}, allow_blank=True
     )
     first_name = serializers.CharField(
         max_length=100, required=True,
@@ -115,6 +115,7 @@ class ProfileEditSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.set_password(validated_data['password'])
+        if validated_data['password']:
+            instance.set_password(validated_data['password'])
         instance.save()
         return instance

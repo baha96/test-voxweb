@@ -43,15 +43,15 @@ class LoginView(APIView):
         else:
             return Response(
                 {
-                    "error": "wrong_email_or_password"
+                    "warning": "Не правильный пароль или логин"
                 },
-                status=status.HTTP_401_UNAUTHORIZED
+                status=status.HTTP_400_BAD_REQUEST
             )
 
 
 class ProfileEditView(generics.UpdateAPIView):
     permission_classes = (
-        # IsAuthenticated,
+        IsAuthenticated,
     )
     serializer_class = serializers.ProfileEditSerializer
 
@@ -68,6 +68,7 @@ class ProfileEditView(generics.UpdateAPIView):
             )
             serializer.is_valid(raise_exception=True)
             serializer.save()
+
             return Response(
                 {
                     'message': 'ok'
