@@ -4,6 +4,7 @@
     <input :type="type"
            :id="inputID"
            :required="required"
+           :disabled="disabled"
            v-model.trim="value"/>
     <span></span>
     <small v-if="required">Пожалуйста заполните поле</small>
@@ -18,6 +19,10 @@
         type: String,
         required: true
       },
+      modelName: {
+        type: String,
+        required: true
+      },
       text: {
         type: String,
         default: ''
@@ -27,6 +32,10 @@
         default: 'text'
       },
       required: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
         type: Boolean,
         default: false
       }

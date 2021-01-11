@@ -27,6 +27,7 @@
 <script>
   export default {
     name: "task-list",
+    middleware: 'auth',
     data() {
       return {
         items: [

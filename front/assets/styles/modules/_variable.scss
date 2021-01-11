@@ -1,9 +1,40 @@
 $gray: #CBCBCB;
 $border-gray: 1px solid $gray;
 $light-blue: #6F849C;
+$blue: #007AFB;
 $site-color: #D6073D;
 $bradius: 10px;
 $transition: .4s ease-in;
 $black: #303136;
 $navigationW: 300px;
 $green: #51CB3D;
+
+
+
+
+@mixin loginInput() {
+  form {
+    width: 100%;
+    input {
+      display: block;
+      border: $border-gray;
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      line-height: 20px;
+      border-radius: $bradius;
+      margin-bottom: 1rem;
+      &::placeholder {
+        color: #9496A6;
+        font-size: 18px;
+      }
+    }
+  }
+  .footer {
+    display: flex;
+    align-items: center;
+    .btn {
+      margin-right: 10px;
+    }
+  }
+}

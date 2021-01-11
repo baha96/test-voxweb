@@ -2,9 +2,6 @@ const path = require("path");
 
 export default {
   env: require("dotenv").config({path: process.env.NODE_ENV === 'development' ? '.env' : '.env.production'}),
-  server: {
-    port: 7888,
-  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'Test-voxweb',
@@ -22,6 +19,10 @@ export default {
   css: [
     {src: '~assets/styles/main.scss', lang: 'scss'},
   ],
+
+  server: {
+    port: 7888,
+  },
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
@@ -42,7 +43,12 @@ export default {
     '@nuxtjs/style-resources',
   ],
   axios: {
-    baseURL: process.env.NUXT_ENV_APP_API_URL,
+    proxy: process.env.NODE_ENV === 'development',
+    // baseURL: process.env.NUXT_ENV_APP_API_URL,
+    credentials: true,
+  },
+  proxy: {
+    '/api' : process.env.NUXT_ENV_APP_PROXY
   },
   styleResources: {
     scss: [

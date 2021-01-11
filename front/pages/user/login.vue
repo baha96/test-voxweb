@@ -1,18 +1,56 @@
 <template>
   <div class="login">
     <Logo/>
-    <form>
-      <input type="text" placeholder="Логин" required>
-      <input type="text" placeholder="Пароль" required>
-      <Button text="Войти" type="submit"/>
+    <form @submit.prevent="login()" v-if="item">
+      <input type="text" v-model.trim="item.username" placeholder="Логин" required>
+      <input type="password" v-model.trim="item.password" placeholder="Пароль" required>
+      <NLink to="/user/register">Зарегистрироваться</NLink>
+      <p v-if="error.length" class="error" v-for="e in error">* {{ e }}</p>
+      <div class="footer">
+        <Button text="Войти" type="submit" :disabled="disabled"/>
+        <Loading v-show="disabled" class="small"/>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
+
+  import {mapMutations} from "vuex";
+
   export default {
     name: "login",
-    layout: 'login'
+    layout: 'login',
+    data() {
+      return {
+        disabled: false,
+        error: [],
+        item: {
+          username: '',
+          password: ''
+        }
+      }
+    },
+    methods: {
+      ...mapMutations({
+        setUser: 'users/SET_USER'
+      }),
+      async login() {
+        try {
+          this.disabled = true;
+          this.error = [];
+          const user = await this.$axios.$post('api/v1/account/auth/', this.item);
+          this.setUser(user);
+          this.$router.replace(this.$route.query.redirect || "/");
+        } catch (e) {
+          console.error(e);
+          const {data} = e.response;
+          if (data && data.warning) this.error.push(data.warning);
+        } finally {
+          this.disabled = false
+        }
+      }
+    }
   }
 </script>
 
@@ -25,26 +63,20 @@
     max-width: 90%;
     margin: 0 auto;
     width: 100%;
+
+    @include loginInput;
+
     .logo  {
       margin-bottom: 3rem;
       width: 70%;
     }
-    form {
-      width: 100%;
-      input {
-        display: block;
-        border: $border-gray;
-        width: 100%;
-        padding: 14px 16px;
-        font-size: 16px;
-        line-height: 20px;
-        border-radius: $bradius;
-        margin-bottom: 1rem;
-        &::placeholder {
-          color: #9496A6;
-          font-size: 18px;
-        }
-      }
+    form  a {
+      text-align: right;
+      font-weight: 500;
+      font-size: 80%;
+      color: $blue;
+      display: block;
+      margin-bottom: 1rem;
     }
     @media only screen and (min-width: 411px) {
       max-width: 80%;
