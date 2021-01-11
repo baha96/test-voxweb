@@ -63,13 +63,25 @@
         return Array.from({length: this.labels.length}, () => this.getRandomInt())
       },
       setRandomDatas() {
-        this.datasets = Array.from({length: 3}, () => ({
+        const limit = this.datasets.length > 0 ? this.datasets.length : this.limit;
+        this.datasets = Array.from({length: limit}, () => ({
           ...this.templateData(),
           data: this.setDatas(),
         }));
         this.$refs.chart.updateChart()
       },
       addRandomData() {
+        this.datasets = [...this.datasets, {
+          ...this.templateData(),
+          data: this.setDatas()
+        }]
+      },
+      delAllData() {
+        if (this.datasets.length) {
+          this.datasets.splice(-1,1);
+        }
+      },
+      enlargeData() {
         if (this.limit < 12) {
           this.limit++;
           this.labels.push(this.months[this.limit-1]);
@@ -80,20 +92,15 @@
           }
         }
       },
-      delAllData() {
-        this.labels = [];
-        this.limit = 0;
-        this.datasets = []
-      },
-      enlargeData() {
-        this.datasets = [...this.datasets, {
-             ...this.templateData(),
-            data: this.setDatas()
-        }]
-      },
       reduceData() {
-        if (this.datasets.length) {
-          this.datasets.splice(-1,1);
+        if (this.limit > 0) {
+          this.limit--;
+          this.labels.splice(-1,1);
+          if (this.datasets.length) {
+            this.datasets.forEach(i => {
+              i.data.splice(-1,1);
+            });
+          }
         }
       }
     },
