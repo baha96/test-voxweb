@@ -43,7 +43,7 @@
         } catch (e) {
           console.error(e);
           const {data} = e.response;
-          if (data && data.warning) this.error = data.warning;
+          if (data && data.warning) Array.isArray(data.warning) ? this.error = data.warning : this.error.push(data.warning);
           else if (data && data.non_field_errors) this.error = data.non_field_errors;
         } finally {
           this.disabled = false
